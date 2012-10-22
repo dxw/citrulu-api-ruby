@@ -17,7 +17,7 @@ Jeweler::Tasks.new do |gem|
   gem.name = "citrulu-api"
   gem.homepage = "http://github.com/leveretweb/citrulu-api"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
+  gem.summary = %Q{Wrapper for the api exposed by Citrulu}
   gem.description = %Q{TODO: longer description of your gem}
   gem.email = "duncan@dxw.com"
   gem.authors = ["Duncan Stuart"]
