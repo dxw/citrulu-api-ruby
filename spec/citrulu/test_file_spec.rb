@@ -11,7 +11,7 @@ describe "TestFile" do
     
     # Faraday.stub(:new).and_return(@connection)
     
-    API.stub(:connection).and_return(@connection)    
+    Citrulu.stub(:connection).and_return(@connection)    
     stub_const("CITRULU_API_KEY", "Foo")
     
     @response = double("Response")
