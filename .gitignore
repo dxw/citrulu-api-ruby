@@ -47,3 +47,7 @@ pkg
 
 # For rubinius:
 #*.rbc
+
+# For manual testing:
+testing.rb
+config.rb
