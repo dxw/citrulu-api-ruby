@@ -109,16 +109,40 @@ describe "TestFile" do
   ####################  
   
   describe "save" do
-    it "should create the file if it doesn't exist"
-    it "should update the file if it already exists"
+    it "should create the file if it doesn't exist" do
+      TestFile.stub(:create)
+      TestFile.should_receive(:create)
+      
+      attrs = FactoryGirl.attributes_for(:full_test_file, id: nil)
+      TestFile.new(attrs).save
+    end
+    it "should update the file if it already exists" do
+      TestFile.stub(:update)
+      TestFile.should_receive(:update)
+      
+      attrs = FactoryGirl.attributes_for(:full_test_file, id: 1)
+      TestFile.new(attrs).save
+    end
   end
   
   describe "destroy" do
-    it "should delete the file"
+    it "should delete the file" do
+      TestFile.stub(:delete)
+      TestFile.should_receive(:delete)
+      
+      attrs = FactoryGirl.attributes_for(:full_test_file, id: 1)
+      TestFile.new(attrs).destroy
+    end
   end
   
   describe "compile" do
-    it "should compile the file"
+    it "should compile the file" do
+      TestFile.stub(:compile)
+      TestFile.should_receive(:compile)
+      
+      attrs = FactoryGirl.attributes_for(:full_test_file, id: 1)
+      TestFile.new(attrs).compile
+    end
   end
   
 end

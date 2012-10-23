@@ -28,7 +28,6 @@ class TestFile
   
   def initialize(args={})
     args.each do |k,v|
-      
       raise ArgumentError.new("Unknown attribute: #{k}") unless TestFile.attribute_method?(k.to_sym)
       instance_variable_set("@#{k}", v) unless v.nil?
     end
