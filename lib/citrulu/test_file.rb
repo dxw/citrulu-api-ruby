@@ -39,14 +39,14 @@ class TestFile
   
   # GET "https://www.citrulu.com/api/v1/test_files?auth_token=abcdefg"
   def self.all
-    response = Citrulu.connection.get "test_files", auth_token: CITRULU_API_KEY
+    response = Citrulu.connection.get "test_files"
     attr_array = JSON.parse(response.body)
     attr_array.map{ |attrs| TestFile.new(attrs)}
   end
   
   # GET "https://www.citrulu.com/api/v1/test_files/2?auth_token=abcdefg"
   def self.find(id)
-    response = Citrulu.connection.get "test_files/#{id}", auth_token: CITRULU_API_KEY
+    response = Citrulu.connection.get "test_files/#{id}"
     # parse_response(response.body)
     
     # TEMPORARY: there's a bug in the api which means that it returns an array instead of a single hash,
@@ -61,19 +61,19 @@ class TestFile
   
   # POST "https://www.citrulu.com/api/v1/test_files?name=foo&test_file_text=bar&run_tests=false&auth_token=abcdefg"
   def self.create(options={})
-    response = Citrulu.connection.post "test_files", options.merge(auth_token: CITRULU_API_KEY)
+    response = Citrulu.connection.post "test_files", options
     parse_response(response.body)
   end
     
   # PUT "https://www.citrulu.com/api/v1/test_files/2?name=foz&test_file_text=baz&run_tests=true&auth_token=abcdefg"
   def self.update(id, options={})
-    response = Citrulu.connection.put "test_files/#{id}", options.merge(auth_token: CITRULU_API_KEY)
+    response = Citrulu.connection.put "test_files/#{id}", options
     parse_response(response.body)
   end
   
   # DELETE "https://www.citrulu.com/api/v1/test_files/2?auth_token=abcdefg"
   def self.delete(id)
-    Citrulu.connection.delete "test_files/#{id}", auth_token: CITRULU_API_KEY
+    Citrulu.connection.delete "test_files/#{id}"
     # Possible results:
     # 204 - successful deletion
     # ??? - failed deletion
@@ -81,7 +81,7 @@ class TestFile
   
   # POST "https://www.citrulu.com/api/v1/test_files/compile/?auth_token=abcdefg"
   def self.compile(id)
-    response = Citrulu.connection.post "test_files/compile/#{id}", auth_token: CITRULU_API_KEY
+    response = Citrulu.connection.post "test_files/compile/#{id}"
     parse_response(response.body)
     # Possible results:
     # 201 - successful compilation

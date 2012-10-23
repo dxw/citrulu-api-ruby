@@ -7,6 +7,7 @@ module Citrulu
   def self.connection
     Faraday.new(:url => BASE_URL) do |faraday|
       faraday.request  :url_encoded             # form-encode POST params
+      faraday.params =      { 'auth_token' => CITRULU_API_KEY }
       faraday.response :logger                  # log requests to STDOUT
       faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
     end
