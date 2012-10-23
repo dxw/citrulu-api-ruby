@@ -12,8 +12,24 @@ class TestFile
   attr_reader :updated_at
   attr_reader :created_at
   
+  def self.attribute_method?(attribute)
+    [ :name,
+      :test_file_text,
+      :compiled_test_file_text,
+      :run_tests,
+      :domains,
+      :frequency,
+      :id,
+      :tutorial_id,
+      :updated_at,
+      :created_at,
+    ].include?(attribute)
+  end 
+  
   def initialize(args={})
     args.each do |k,v|
+      
+      raise ArgumentError.new("Unknown attribute: #{k}") unless TestFile.attribute_method?(k.to_sym)
       instance_variable_set("@#{k}", v) unless v.nil?
     end
   end
