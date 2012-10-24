@@ -1,4 +1,5 @@
 require 'json'
+require 'active_model'
 
 class TestFile
   attr_accessor :name
@@ -11,6 +12,8 @@ class TestFile
   attr_reader :tutorial_id
   attr_reader :updated_at
   attr_reader :created_at
+  
+  attr_reader :errors
   
   def self.attribute_method?(attribute)
     [ :name,
@@ -26,12 +29,30 @@ class TestFile
     ].include?(attribute)
   end 
   
+  extend ActiveModel::Naming 
+  # Required dependency for ActiveModel::Errors
   def initialize(args={})
     args.each do |k,v|
       raise ArgumentError.new("Unknown attribute: #{k}") unless TestFile.attribute_method?(k.to_sym)
       instance_variable_set("@#{k}", v) unless v.nil?
     end
+    @errors = ActiveModel::Errors.new(self)
   end
+  
+  
+  # The following methods are needed in order for ActiveModel::Errors to work correctly
+  def read_attribute_for_validation(attr)
+    send(attr)
+  end
+  
+  def self.human_attribute_name(attr, options = {})
+    attr
+  end
+
+  def self.lookup_ancestors
+    [self]
+  end
+  
   
   #################
   # Class Methods #
@@ -62,30 +83,42 @@ class TestFile
   # POST "https://www.citrulu.com/api/v1/test_files?name=foo&test_file_text=bar&run_tests=false&auth_token=abcdefg"
   def self.create(options={})
     response = Citrulu.connection.post "test_files", options
-    parse_response(response.body)
+    body = JSON.parse(response.body)
+    
+    if response.status == 200
+      TestFile.new(body)
+    else # 422 - validation errors
+      test_file = TestFile.new(options)
+      test_file.add_all_errors(body["errors"])
+      return test_file
+    end
   end
     
   # PUT "https://www.citrulu.com/api/v1/test_files/2?name=foz&test_file_text=baz&run_tests=true&auth_token=abcdefg"
   def self.update(id, options={})
     response = Citrulu.connection.put "test_files/#{id}", options
-    parse_response(response.body)
+    body = JSON.parse(response.body)
+    
+    if response.status == 200
+      TestFile.new(body)
+    else # 422 - validation errors
+      test_file = self.find(id)
+      test_file.add_all_errors(body["errors"])
+      return test_file
+    end
   end
   
   # DELETE "https://www.citrulu.com/api/v1/test_files/2?auth_token=abcdefg"
+  # Status 204 = successful deletion
   def self.delete(id)
     Citrulu.connection.delete "test_files/#{id}"
-    # Possible results:
-    # 204 - successful deletion
-    # ??? - failed deletion
   end
   
   # POST "https://www.citrulu.com/api/v1/test_files/compile/?auth_token=abcdefg"
+  # status: 201 = successful compilation
   def self.compile(id)
     response = Citrulu.connection.post "test_files/compile/#{id}"
     parse_response(response.body)
-    # Possible results:
-    # 201 - successful compilation
-    # 422 - unprocessable entity = failed compilation
   end
   
   
@@ -117,6 +150,18 @@ class TestFile
   # TODO: Helper methods to write:
   # .prepend, .append - TDD THEM!!!
   
+  
+  ####################
+  # Utility Methods #
+  ####################
+
+  def add_all_errors(error_hash)
+    error_hash.each do |attribute, messages|
+      messages.each do |message|
+        errors.add(attribute.to_sym, message)
+      end
+    end
+  end
   
   private 
   

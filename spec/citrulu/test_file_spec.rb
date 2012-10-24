@@ -73,8 +73,25 @@ describe "TestFile" do
     before(:each) do
       stub_file_response(:post)
     end
-    it "should return a test_file" do
-      TestFile.create.should be_a(TestFile)
+    context "when the file was successfully created" do
+      before(:each) do
+        @response.stub(:status).and_return(200)
+      end
+      it "should return a test_file" do
+        TestFile.create.should be_a(TestFile)
+      end
+    end
+    context "when the file was not successfully created" do
+      before(:each) do
+        @response.stub(:status).and_return(422)
+        @response.stub(:body).and_return(%({"errors":{"name":["can't be blank"]}}))
+      end
+      it "should return a test_file" do
+        TestFile.create.should be_a(TestFile)
+      end
+      it "should add the errors onto the test file object" do
+        TestFile.create.errors.messages.should == { :name => ["can't be blank"] }
+      end
     end
   end
   
@@ -82,8 +99,28 @@ describe "TestFile" do
     before(:each) do
       stub_file_response(:put)
     end
-    it "should return a test_file" do
-      TestFile.update(1).should be_a(TestFile)
+    context "when the file was successfully created" do
+      before(:each) do
+        @response.stub(:status).and_return(200)
+      end
+      it "should return a test_file" do
+        TestFile.update(1).should be_a(TestFile)
+      end
+    end
+    context "when the file was not successfully created" do
+      before(:each) do
+        @response.stub(:status).and_return(422)
+        @response.stub(:body).and_return(%({"errors":{"name":["can't be blank"]}}))
+        stub_file_response(:get)
+      end
+      it "should return a test_file" do
+        pending "Need the API Find to be fixed before this will pass"
+        TestFile.update(1).should be_a(TestFile)
+      end
+      it "should add the errors onto the test file object" do
+        pending "Need the API Find to be fixed before this will pass"
+        TestFile.update(1).errors.messages.should == { :name => ["can't be blank"] }
+      end
     end
   end
   
@@ -114,8 +151,7 @@ describe "TestFile" do
       TestFile.stub(:create)
       TestFile.should_receive(:create)
       
-      attrs = FactoryGirl.attributes_for(:full_test_file, id: nil)
-      TestFile.new(attrs).save
+      TestFile.new(name: "foo", test_file_text: "bar", run_tests: true).save
     end
     it "should update the file if it already exists" do
       TestFile.stub(:update)
