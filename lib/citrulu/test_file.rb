@@ -27,24 +27,23 @@ class TestFile
       :updated_at,
       :created_at,
     ].include?(attribute)
-  end 
+  end
   
   extend ActiveModel::Naming 
   # Required dependency for ActiveModel::Errors
-  def initialize(args={})
-    args.each do |k,v|
-      raise ArgumentError.new("Unknown attribute: #{k}") unless TestFile.attribute_method?(k.to_sym)
-      instance_variable_set("@#{k}", v) unless v.nil?
-    end
-    @errors = ActiveModel::Errors.new(self)
-  end
   
+  # This is for the user creating Test Files. Internally we use build (defined below)
+  def initialize(args={})
+    args.each do |attr, value|
+      self.public_send("#{attr}=", value)
+    end if args
+  end
   
   # The following methods are needed in order for ActiveModel::Errors to work correctly
   def read_attribute_for_validation(attr)
     send(attr)
   end
-  
+
   def self.human_attribute_name(attr, options = {})
     attr
   end
@@ -60,9 +59,9 @@ class TestFile
   
   # GET "https://www.citrulu.com/api/v1/test_files?auth_token=abcdefg"
   def self.all
-    response = Citrulu.connection.get "test_files"
+    response = Citrulu.connection.get "test_files" 
     attr_array = JSON.parse(response.body)
-    attr_array.map{ |attrs| TestFile.new(attrs)}
+    attr_array.map{ |attrs| build(attrs)}
   end
   
   # GET "https://www.citrulu.com/api/v1/test_files/2?auth_token=abcdefg"
@@ -73,12 +72,8 @@ class TestFile
     # TEMPORARY: there's a bug in the api which means that it returns an array instead of a single hash,
     # so we'll be hacky for now:
     attrs = JSON.parse(response.body)
-    TestFile.new(attrs.first)
+    build(attrs.first)
   end
-  
-  
-  # TODO: create, update, delete and compile should be private (???)
-  # instead these actions should be achieved through new, save, destroy and compile (???)
   
   # POST "https://www.citrulu.com/api/v1/test_files?name=foo&test_file_text=bar&run_tests=false&auth_token=abcdefg"
   def self.create(options={})
@@ -86,9 +81,9 @@ class TestFile
     body = JSON.parse(response.body)
     
     if response.status == 200
-      TestFile.new(body)
+      build(body)
     else # 422 - validation errors
-      test_file = TestFile.new(options)
+      test_file = build(options)
       test_file.add_all_errors(body["errors"])
       return test_file
     end
@@ -100,9 +95,9 @@ class TestFile
     body = JSON.parse(response.body)
     
     if response.status == 200
-      TestFile.new(body)
+      build(body)
     else # 422 - validation errors
-      test_file = self.find(id)
+      test_file = find(id)
       test_file.add_all_errors(body["errors"])
       return test_file
     end
@@ -154,7 +149,28 @@ class TestFile
   ####################
   # Utility Methods #
   ####################
-
+  
+  #TODO: really not sure about this...
+  class << self
+    private
+    
+    def build(attrs={})
+      test_file = allocate
+      attrs.each do |k,v|
+        raise ArgumentError.new("Unknown attribute: #{k}") unless TestFile.attribute_method?(k.to_sym)
+        test_file.instance_variable_set("@#{k}", v) unless v.nil?
+      end
+      test_file.instance_variable_set("@errors", ActiveModel::Errors.new(test_file))
+      
+      return test_file
+    end
+    
+    def parse_response(json)
+      attrs = JSON.parse(json)
+      build(attrs)
+    end
+  end
+  
   def add_all_errors(error_hash)
     error_hash.each do |attribute, messages|
       messages.each do |message|
@@ -162,11 +178,4 @@ class TestFile
       end
     end
   end
-  
-  private 
-  
-  def self.parse_response(json)
-    attrs = JSON.parse(json)
-    TestFile.new(attrs)
-  end  
 end

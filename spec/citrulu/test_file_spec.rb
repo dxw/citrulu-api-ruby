@@ -32,9 +32,15 @@ describe "TestFile" do
     @connection.stub(method).and_return(@response)
   end
   
+  # TODO: this feels like a big dirty hack...
+  def make_test_file(name, options={})
+    attrs = FactoryGirl.attributes_for(name, options)
+    TestFile.send(:build, attrs)
+  end
+  
   describe "initialize" do
     it "should fail if a supplied attribute is invalid" do
-      expect{ TestFile.new(:foo => "bar") }.to raise_error(ArgumentError)
+      expect{ TestFile.new(:foo => "bar") }.to raise_error(NoMethodError)
     end
   end
   
@@ -157,8 +163,7 @@ describe "TestFile" do
       TestFile.stub(:update)
       TestFile.should_receive(:update)
       
-      attrs = FactoryGirl.attributes_for(:full_test_file, id: 1)
-      TestFile.new(attrs).save
+      make_test_file(:full_test_file, id: 1).save
     end
   end
   
@@ -167,8 +172,7 @@ describe "TestFile" do
       TestFile.stub(:delete)
       TestFile.should_receive(:delete)
       
-      attrs = FactoryGirl.attributes_for(:full_test_file, id: 1)
-      TestFile.new(attrs).destroy
+      make_test_file(:full_test_file, id: 1).destroy
     end
   end
   
@@ -177,8 +181,7 @@ describe "TestFile" do
       TestFile.stub(:compile)
       TestFile.should_receive(:compile)
       
-      attrs = FactoryGirl.attributes_for(:full_test_file, id: 1)
-      TestFile.new(attrs).compile
+      make_test_file(:full_test_file, id: 1).compile
     end
   end
   
