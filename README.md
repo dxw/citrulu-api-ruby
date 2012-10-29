@@ -9,8 +9,10 @@ You need an account on Citrulu to use the gem: Sign up at <http://www.citrulu.co
  
 Configure your API key by adding it to an initializer: 
 
-    #config/initializers/citrulu_auth.rb
-    CITRULU_API_KEY = "abcdefgh"
+```ruby
+#config/initializers/citrulu_auth.rb
+CITRULU_API_KEY = "abcdefgh"
+```
 
 Usage
 -----
@@ -19,29 +21,36 @@ You can interact with TestFile instances in the same way that you'd interact wit
 
 List test files
 
-    TestFile.all
+```ruby
+TestFile.all
+```
     
 Create a new test file
-    
-    test_file = TestFile.new( name:           "My first test file",
-                              test_file_text: "On http://www.google.com",
-                              run_tests:      "true" )
-    test_file.save
-    
-    # test files must have be successfully compiled before they will be run:
-    test_file.compile 
+
+```ruby    
+test_file = TestFile.new( name:           "My first test file",
+                          test_file_text: "On http://www.google.com",
+                          run_tests:      "true" )
+test_file.save
+
+# test files must have be successfully compiled before they will be run:
+test_file.compile
+```
     
 Find a specific test file by and update it:
-    
-    test_file = TestFile.find(23)
-    test_file.update(run_tests: false)
-    test_file.save
-    
-Delete a test file:
-    
-    test_file = TestFile.find(23)
-    test_file.destroy
 
+```ruby 
+test_file = TestFile.find(23)
+test_file.update(run_tests: false)
+test_file.save
+```    
+
+Delete a test file:
+
+```ruby 
+test_file = TestFile.find(23)
+test_file.destroy
+```
 
 Contributing to the Citrulu gem 
 -------------------------------
