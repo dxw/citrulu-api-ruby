@@ -15,11 +15,11 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "citrulu"
-  gem.homepage = "http://github.com/leveretweb/citrulu-api"
+  gem.homepage = "https://github.com/dxw/citrulu-api-ruby.git"
   gem.license = "MIT"
-  gem.summary = %Q{Wrapper for the api exposed by Citrulu}
-  gem.description = %Q{TODO: longer description of your gem}
-  gem.email = "duncan@dxw.com"
+  gem.summary = %Q{ Wrapper for the api exposed by Citrulu }
+  gem.description = %Q{ Citrulu exposes an api for creating, editing and compiling test files (http://www.citrulu.com/api). This gem provides a wrapper around that api which allows you to work with TestFile objects locally. }
+  gem.email = ["contact@dxw.com", "duncan@dxw.com"]
   gem.authors = ["Duncan Stuart"]
   # dependencies defined in Gemfile
 end
