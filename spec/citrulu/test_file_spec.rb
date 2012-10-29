@@ -4,16 +4,8 @@ require 'json'
 describe "TestFile" do
   before(:each) do
     @connection = double("Connection")
-    # @connection.stub(:get)
-    # @connection.stub(:put)
-    # @connection.stub(:post)
-    # @connection.stub(:delete)
-    
-    # Faraday.stub(:new).and_return(@connection)
-    
     Citrulu.stub(:connection).and_return(@connection)    
     stub_const("CITRULU_API_KEY", "Foo")
-    
     @response = double("Response")
   end
   
@@ -38,9 +30,19 @@ describe "TestFile" do
     TestFile.send(:build, attrs)
   end
   
+  ################
+  # Constructors #
+  ################
+  
   describe "initialize" do
     it "should fail if a supplied attribute is invalid" do
       expect{ TestFile.new(:foo => "bar") }.to raise_error(NoMethodError)
+    end
+  end
+  
+  describe "build" do
+    it "should be private" do
+      expect{ TestFile.build(:frequency => "1000") }.to raise_error(NoMethodError)
     end
   end
   
@@ -183,6 +185,5 @@ describe "TestFile" do
       
       make_test_file(:full_test_file, id: 1).compile
     end
-  end
-  
+  end  
 end
