@@ -1,6 +1,9 @@
 Citrulu
 =======
-A wrapper for the [Citrulu api](https://www.citrulu.com/api)
+
+[Citrulu](https://www.citrulu.com/) exposes an [api](https://www.citrulu.com/api) for creating, editing and compiling test files. This gem provides a wrapper around that api which allows you to work with TestFile objects locally.
+
+The gem has not yet been widely used. It's probably very unlikely to cause anything bad to happen in your app, but please **use at your own risk** and raise an issue if you find any bugs.
 
 Setup
 -----
@@ -17,7 +20,7 @@ CITRULU_API_KEY = "abcdefgh"
 Usage
 -----
 
-You can interact with TestFile instances in the same way that you'd interact with a model:
+You can interact with TestFile instances in mostly the same way that you'd interact with a Rails model:
 
 List test files
 
