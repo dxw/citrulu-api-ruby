@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Duncan Stuart"]
   s.date = "2012-10-29"
-  s.description = " Citrulu exposes an api for creating, editing and compiling test files (http://www.citrulu.com/api). This gem provides a wrapper around that api which allows you to work with TestFile objects locally. "
+  s.description = "Citrulu exposes an api for creating, editing and compiling test files (http://www.citrulu.com/api). This gem provides a wrapper around that api which allows you to work with TestFile objects locally."
   s.email = ["contact@dxw.com", "duncan@dxw.com"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
