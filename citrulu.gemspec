@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     "LICENSE.txt",
     "README.md",
     "Rakefile",
+    "citrulu.gemspec",
     "lib/citrulu.rb",
     "lib/citrulu/error.rb",
     "lib/citrulu/test_file.rb",
