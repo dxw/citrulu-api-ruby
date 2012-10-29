@@ -5,6 +5,17 @@ Citrulu
 
 The gem has not yet been widely used. It's probably very unlikely to cause anything bad to happen in your app, but please **use at your own risk** and raise an issue if you find any bugs.
 
+Installation
+-------------
+
+    gem install citrulu
+    
+Or in your gemfile:
+
+```ruby
+gem "citrulu"
+```    
+
 Setup
 -----
 
