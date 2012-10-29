@@ -1,4 +1,4 @@
-module Citrulu
+module Citrulu #:nodoc:
   # Custom error class for rescuing from all Citrulu errors
   class Error < StandardError; end
 

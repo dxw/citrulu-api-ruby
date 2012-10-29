@@ -5,6 +5,7 @@ require 'faraday'
 
 module FaradayMiddleware
   class RaiseHttpException < Faraday::Middleware
+    # Handle response codes 401, 404 and 500 as exceptions. See https://github.com/technoweenie/faraday#writing-middleware for more details.
     def call(env)
       @app.call(env).on_complete do |response|
         case response[:status].to_i

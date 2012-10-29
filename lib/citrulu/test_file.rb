@@ -4,18 +4,25 @@ require 'active_model'
 class TestFile
   attr_accessor :name
   attr_accessor :test_file_text
+  # The tests which will be run. May differ from test_file_text if the
   attr_reader :compiled_test_file_text
+  # Boolean - if set to true, the tests will be run
   attr_accessor :run_tests
+  # The list of domains in compiled_test_file_text
   attr_reader :domains
+  # How often the test file is run, in seconds (e.g. 3600 = once every hour)
   attr_reader :frequency
   attr_reader :id
   attr_reader :tutorial_id
   attr_reader :updated_at
   attr_reader :created_at
   
+  # A rails style error object (using ActiveModel::Errors) - use errors.full_messages to access an array of error messages
   attr_reader :errors
   
-  def self.attribute_method?(attribute)
+  protected
+  
+  def self.attribute_method?(attribute) #:nodoc:
     [ :name,
       :test_file_text,
       :compiled_test_file_text,
@@ -29,27 +36,38 @@ class TestFile
     ].include?(attribute)
   end
   
+  public
+  
   extend ActiveModel::Naming 
   # Required dependency for ActiveModel::Errors
   
-  # This is for the user creating Test Files. Internally we use build (defined below)
+  class << self
+    private
+    
+    # Required in order for ActiveModel::Errors to work correctly
+    def self.human_attribute_name(attr, options = {})
+      attr
+    end
+
+    # Required in order for ActiveModel::Errors to work correctly
+    def self.lookup_ancestors
+      [self]
+    end
+  end
+  
+  private
+
+  # Required in order for ActiveModel::Errors to work correctly
+  def read_attribute_for_validation(attr)
+    send(attr)
+  end
+  
+  public
+  
   def initialize(args={})
     args.each do |attr, value|
       self.public_send("#{attr}=", value)
     end if args
-  end
-  
-  # The following methods are needed in order for ActiveModel::Errors to work correctly
-  def read_attribute_for_validation(attr)
-    send(attr)
-  end
-
-  def self.human_attribute_name(attr, options = {})
-    attr
-  end
-
-  def self.lookup_ancestors
-    [self]
   end
   
   
@@ -84,7 +102,7 @@ class TestFile
       build(body)
     else # 422 - validation errors
       test_file = build(options)
-      test_file.add_all_errors(body["errors"])
+      add_all_errors(test_file, body["errors"])
       return test_file
     end
   end
@@ -98,7 +116,7 @@ class TestFile
       build(body)
     else # 422 - validation errors
       test_file = find(id)
-      test_file.add_all_errors(body["errors"])
+      add_all_errors(test_file, body["errors"])
       return test_file
     end
   end
@@ -121,7 +139,7 @@ class TestFile
   # Instance Methods #
   ####################
   
-  # Create or update the current object
+  # Create or update the current test file on Citrulu
   def save
     options = { name:           name,
                 test_file_text: test_file_text,
@@ -134,10 +152,12 @@ class TestFile
     end
   end
   
+  # Deletes the current test file on Citrulu
   def destroy
     self.class.delete(id)
   end
   
+  # Attempts to compile the test file. Returns any compilation errors as an errors object. Use errors.full_messages to access the array of error messages.
   def compile
     self.class.compile(id)
   end
@@ -150,7 +170,6 @@ class TestFile
   # Utility Methods #
   ####################
   
-  #TODO: really not sure about this...
   class << self
     private
     
@@ -165,17 +184,17 @@ class TestFile
       return test_file
     end
     
+    def add_all_errors(test_file, error_hash)
+      error_hash.each do |attribute, messages|
+        messages.each do |message|
+          test_file.errors.add(attribute.to_sym, message)
+        end
+      end
+    end
+    
     def parse_response(json)
       attrs = JSON.parse(json)
       build(attrs)
-    end
-  end
-  
-  def add_all_errors(error_hash)
-    error_hash.each do |attribute, messages|
-      messages.each do |message|
-        errors.add(attribute.to_sym, message)
-      end
-    end
+    end    
   end
 end
