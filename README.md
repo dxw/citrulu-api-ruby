@@ -2,17 +2,46 @@ Citrulu
 =======
 A wrapper for the [Citrulu api](https://www.citrulu.com/api)
 
+Setup
+-----
+
+You need an account on Citrulu to use the gem: Sign up at <http://www.citrulu.com>, and once you're signed in you can create an API key on the '[Account Settings](https://www.citrulu.com/settings)' page.
+ 
+Configure your API key by adding it to an initializer: 
+
+    #config/initializers/citrulu_auth.rb
+    CITRULU_API_KEY = "abcdefgh"
+
 Usage
 -----
-You need an account on Citrulu to use the gem. Sign up at <http://www.citrulu.com>.
 
-You can create an API key on the '[Account Settings](https://www.citrulu.com/settings)' tab once you're signed in. 
+You can interact with TestFile instances in the same way that you'd interact with a model:
 
-Configure your API key by adding the following to an initializer, eg. `config/initializers/citrulu_auth.rb`:
+List test files
 
-```ruby
-CITRULU_API_KEY = "abcdefgh"
-```
+    TestFile.all
+    
+Create a new test file
+    
+    test_file = TestFile.new( name:           "My first test file",
+                              test_file_text: "On http://www.google.com",
+                              run_tests:      "true" )
+    test_file.save
+    
+    # test files must have be successfully compiled before they will be run:
+    test_file.compile 
+    
+Find a specific test file by and update it:
+    
+    test_file = TestFile.find(23)
+    test_file.update(run_tests: false)
+    test_file.save
+    
+Delete a test file:
+    
+    test_file = TestFile.find(23)
+    test_file.destroy
+
 
 Contributing to the Citrulu gem 
 -------------------------------
@@ -27,6 +56,8 @@ Contributing to the Citrulu gem
 Authors
 -------
 Duncan Stuart (duncan@dxw.com)
+
+contact@dxw.com
 
 Copyright
 ---------
