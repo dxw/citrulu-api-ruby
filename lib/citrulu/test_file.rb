@@ -75,14 +75,14 @@ class TestFile
   # Class Methods #
   #################
   
-  # GET "https://www.citrulu.com/api/v1/test_files?auth_token=abcdefg"
+  # GET "https://app.citrulu.com/api/v1/test_files?auth_token=abcdefg"
   def self.all
     response = Citrulu.connection.get "test_files" 
     attr_array = JSON.parse(response.body)
     attr_array.map{ |attrs| build(attrs)}
   end
   
-  # GET "https://www.citrulu.com/api/v1/test_files/2?auth_token=abcdefg"
+  # GET "https://app.citrulu.com/api/v1/test_files/2?auth_token=abcdefg"
   def self.find(id)
     response = Citrulu.connection.get "test_files/#{id}"
     # parse_response(response.body)
@@ -93,7 +93,7 @@ class TestFile
     build(attrs.first)
   end
   
-  # POST "https://www.citrulu.com/api/v1/test_files?name=foo&test_file_text=bar&run_tests=false&auth_token=abcdefg"
+  # POST "https://app.citrulu.com/api/v1/test_files?name=foo&test_file_text=bar&run_tests=false&auth_token=abcdefg"
   def self.create(options={})
     response = Citrulu.connection.post "test_files", options
     body = JSON.parse(response.body)
@@ -107,7 +107,7 @@ class TestFile
     end
   end
     
-  # PUT "https://www.citrulu.com/api/v1/test_files/2?name=foz&test_file_text=baz&run_tests=true&auth_token=abcdefg"
+  # PUT "https://app.citrulu.com/api/v1/test_files/2?name=foz&test_file_text=baz&run_tests=true&auth_token=abcdefg"
   def self.update(id, options={})
     response = Citrulu.connection.put "test_files/#{id}", options
     body = JSON.parse(response.body)
@@ -121,13 +121,13 @@ class TestFile
     end
   end
   
-  # DELETE "https://www.citrulu.com/api/v1/test_files/2?auth_token=abcdefg"
+  # DELETE "https://app.citrulu.com/api/v1/test_files/2?auth_token=abcdefg"
   # Status 204 = successful deletion
   def self.delete(id)
     Citrulu.connection.delete "test_files/#{id}"
   end
   
-  # POST "https://www.citrulu.com/api/v1/test_files/compile/?auth_token=abcdefg"
+  # POST "https://app.citrulu.com/api/v1/test_files/compile/?auth_token=abcdefg"
   # status: 201 = successful compilation
   def self.compile(id)
     response = Citrulu.connection.post "test_files/compile/#{id}"

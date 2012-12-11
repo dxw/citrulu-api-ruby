@@ -4,7 +4,7 @@ require 'faraday'
 
 module Citrulu
   # The address of the Citrulu API
-  BASE_URL = "https://www.citrulu.com/api/v1"
+  BASE_URL = "https://app.citrulu.com/api/v1"
   
   # Sets up the connection to the Citrulu API using the api key, which must already have been set to CITRULU_API_KEY
   def self.connection
