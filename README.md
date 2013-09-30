@@ -1,5 +1,6 @@
 Citrulu
 =======
+[![Gem Version](https://badge.fury.io/rb/citrulu.png)](http://badge.fury.io/rb/citrulu)
 
 [Citrulu](https://www.citrulu.com/) exposes an [api](https://app.citrulu.com/api) for creating, editing and compiling test files. This gem provides a wrapper around that api which allows you to work with TestFile objects locally.
 
