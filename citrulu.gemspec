@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "citrulu"
-  s.version = "0.2.0"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Duncan Stuart"]
-  s.date = "2012-12-11"
+  s.date = "2013-10-05"
   s.description = "Citrulu exposes an api for creating, editing and compiling test files (http://www.citrulu.com/api). This gem provides a wrapper around that api which allows you to work with TestFile objects locally."
   s.email = ["contact@dxw.com", "duncan@dxw.com"]
   s.extra_rdoc_files = [
@@ -38,18 +38,18 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/dxw/citrulu-api-ruby.git"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.24"
+  s.rubygems_version = "2.0.7"
   s.summary = "Wrapper for the api exposed by Citrulu"
 
   if s.respond_to? :specification_version then
-    s.specification_version = 3
+    s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<faraday>, [">= 0"])
       s.add_runtime_dependency(%q<json>, [">= 0"])
-      s.add_runtime_dependency(%q<activemodel>, [">= 0"])
+      s.add_runtime_dependency(%q<activemodel>, ["~> 4.0.0"])
       s.add_development_dependency(%q<rspec>, [">= 2.11.0"])
-      s.add_development_dependency(%q<factory_girl>, [">= 0"])
+      s.add_development_dependency(%q<factory_girl>, ["~> 4.2.0"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_development_dependency(%q<bundler>, [">= 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.4"])
@@ -57,9 +57,9 @@ Gem::Specification.new do |s|
     else
       s.add_dependency(%q<faraday>, [">= 0"])
       s.add_dependency(%q<json>, [">= 0"])
-      s.add_dependency(%q<activemodel>, [">= 0"])
+      s.add_dependency(%q<activemodel>, ["~> 4.0.0"])
       s.add_dependency(%q<rspec>, [">= 2.11.0"])
-      s.add_dependency(%q<factory_girl>, [">= 0"])
+      s.add_dependency(%q<factory_girl>, ["~> 4.2.0"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_dependency(%q<bundler>, [">= 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
@@ -68,9 +68,9 @@ Gem::Specification.new do |s|
   else
     s.add_dependency(%q<faraday>, [">= 0"])
     s.add_dependency(%q<json>, [">= 0"])
-    s.add_dependency(%q<activemodel>, [">= 0"])
+    s.add_dependency(%q<activemodel>, ["~> 4.0.0"])
     s.add_dependency(%q<rspec>, [">= 2.11.0"])
-    s.add_dependency(%q<factory_girl>, [">= 0"])
+    s.add_dependency(%q<factory_girl>, ["~> 4.2.0"])
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
     s.add_dependency(%q<bundler>, [">= 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
