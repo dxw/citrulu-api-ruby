@@ -40,7 +40,6 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = "2.0.7"
-
   s.summary = "Wrapper for the api exposed by Citrulu"
 
   if s.respond_to? :specification_version then
