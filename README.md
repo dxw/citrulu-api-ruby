@@ -2,7 +2,7 @@ Citrulu
 =======
 [![Gem Version](https://badge.fury.io/rb/citrulu.png)](http://badge.fury.io/rb/citrulu)
 
-[Citrulu](https://www.citrulu.com/) exposes an [api](https://app.citrulu.com/api) for creating, editing and compiling test files. This gem provides a wrapper around that api which allows you to work with TestFile objects locally.
+[Citrulu](https://www.citrulu.com/) exposes an [api](https://www.citrulu.com/api) for creating, editing and compiling test files. This gem provides a wrapper around that api which allows you to work with TestFile objects locally.
 
 The gem has not yet been widely used. It's probably very unlikely to cause anything bad to happen in your app, but please **use at your own risk** and raise an issue if you find any bugs.
 
@@ -20,7 +20,7 @@ gem "citrulu"
 Setup
 -----
 
-You need an account on Citrulu to use the gem: Sign up at <http://www.citrulu.com>, and once you're signed in you can create an API key on the '[Account Settings](https://app.citrulu.com/settings)' page.
+You need an account on Citrulu to use the gem: Sign up at <http://www.citrulu.com>, and once you're signed in you can create an API key on the [Account Settings](https://app.citrulu.com/settings) page.
  
 Configure your API key by adding it to an initializer: 
 
