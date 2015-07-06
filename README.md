@@ -2,6 +2,11 @@ Citrulu
 =======
 [![Gem Version](https://badge.fury.io/rb/citrulu.png)](http://badge.fury.io/rb/citrulu)
 
+_Citrulu has now closed down. For more details see <https://www.citrulu.com/>._
+
+_The source code can be found at <https://github.com/dxw/citrulu>_
+
+
 [Citrulu](https://www.citrulu.com/) exposes an [api](https://www.citrulu.com/api) for creating, editing and compiling test files. This gem provides a wrapper around that api which allows you to work with TestFile objects locally.
 
 The gem has not yet been widely used. It's probably very unlikely to cause anything bad to happen in your app, but please **use at your own risk** and raise an issue if you find any bugs.
